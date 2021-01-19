@@ -1,32 +1,15 @@
-# Prerequisites
-*.d
+# VSCode
+.vscode
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# CMake
+build/
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
+# Tex
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
 *.out
-*.app
+*.synctex.gz

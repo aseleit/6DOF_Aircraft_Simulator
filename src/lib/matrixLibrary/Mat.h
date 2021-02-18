@@ -29,30 +29,30 @@ public:
 
 	Mat(double x, double y, double z);   // 3dim-Vector
 	Mat (double x, double y, double z,   // 6dim-Vector
-                double X, double Y, double Z);
-    // Assignement
+			double X, double Y, double Z);
+	// Assignement
 	Mat(const Mat &rhs);	// Copy constructor
 
 	Mat( double Inital, double Final, int N);
 
 	Mat operator=(const Mat& rhs);	//assignment
-	
-    Mat(const Mat &A, const Mat &B);   // Assemble two matrices
 
-	
-    friend Mat Eye(const int n);      // Identity Matrix
+	Mat(const Mat &A, const Mat &B);   // Assemble two matrices
+
+
+	friend Mat Eye(const int n);      // Identity Matrix
 
 	typedef double value_type; // make T available externally
 
 	// Accessing Elements
 	//inline double & operator()(const int i);	//i'th element
-   // inline double & operator()(const int i, const int j);	//i'th and j'th element
+	// inline double & operator()(const int i, const int j);	//i'th and j'th element
 	double  operator () (int i) const { return v_[i]; };
 	double& operator () (int i)       { return v_[i]; };
 
 	double  operator () (int i,int j) const { return v_[i*n_cols_+j]; };
 	double& operator () (int i,int j)       { return v_[i*n_cols_+j]; };
- 
+
 
 	Mat operator ~ ();
 
@@ -64,18 +64,18 @@ public:
 	friend Mat operator / (const Mat& V, double value);
 
 	// Matrix addition and subtraction
-    friend Mat operator + (const Mat& left, const Mat& right);
-    friend Mat operator - (const Mat& left, const Mat& right); 
+	friend Mat operator + (const Mat& left, const Mat& right);
+	friend Mat operator - (const Mat& left, const Mat& right); 
 
-	 // Matrix product
-    friend Mat operator * (const Mat& left, const Mat& right);
-   
+	// Matrix product
+	friend Mat operator * (const Mat& left, const Mat& right);
+
 	// Unary negative
 	friend Mat operator - (const Mat& V);
 
 	// Mat & operator*(const double & value);
 	//friend Mat operator*(const double& dFactor, const Mat& oMatrix) ;
-	
+
 	// Size
 	inline int Size() const;
 	//void resize(int newn); // resize (contents not preserved)
@@ -110,23 +110,23 @@ public:
 
 	friend Mat Get(const Mat &A, const double min , const double max);
 	// Elementary rotations
-    friend Mat R_x(double Angle);
-    friend Mat R_y(double Angle);
-    friend Mat R_z(double Angle);
+	friend Mat R_x(double Angle);
+	friend Mat R_y(double Angle);
+	friend Mat R_z(double Angle);
 
 	// Sorting
-	
+
 	void Sort();
 	void Sort(Mat & rhs);
 	//Get floati
 
 	float* Getf();
 	// Output
-    friend std::ostream& operator << (std::ostream& os, const Mat& Matrix);
+	friend std::ostream& operator << (std::ostream& os, const Mat& Matrix);
 
-	 // Solve Linear System Using Gauss
-     
-	 
+	// Solve Linear System Using Gauss
+
+
 	Mat GaussLin(const Mat rhs,int n) const;
 
 	Mat Inverse() const;

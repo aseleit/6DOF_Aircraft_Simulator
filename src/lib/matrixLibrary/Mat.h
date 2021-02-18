@@ -40,18 +40,18 @@ public:
     Mat(const Mat &A, const Mat &B);   // Assemble two matrices
 
 	
-    friend Mat eye(const int n);      // Identity Matrix
+    friend Mat Eye(const int n);      // Identity Matrix
 
 	typedef double value_type; // make T available externally
 
 	// Accessing Elements
 	//inline double & operator()(const int i);	//i'th element
    // inline double & operator()(const int i, const int j);	//i'th and j'th element
-	 double  operator () (int i) const { return v[i]; };
-     double& operator () (int i)       { return v[i]; };
+	 double  operator () (int i) const { return v_[i]; };
+     double& operator () (int i)       { return v_[i]; };
 
-	 double  operator () (int i,int j) const { return v[i*nCols+j]; };
-     double& operator () (int i,int j)       { return v[i*nCols+j]; };
+	 double  operator () (int i,int j) const { return v_[i*n_cols_+j]; };
+     double& operator () (int i,int j)       { return v_[i*n_cols_+j]; };
 //	 double & Mat::double()(const int i, const int j)
 	//inline const double & operator()(const int i) const;1	
 	//inline const double & operator()(const int i , const int j) const;
@@ -59,7 +59,7 @@ public:
 
 	 Mat operator ~ ();
 
-	 Mat transpose();
+	 Mat Transpose();
 
 	// Scalar multiplication and division of a vector
 	friend Mat operator * (double value, const Mat& Mat);  
@@ -83,7 +83,7 @@ public:
 	//friend Mat operator*(const double& dFactor, const Mat& oMatrix) ;
 	
 	// Size
-	inline int size() const;
+	inline int Size() const;
 	//void resize(int newn); // resize (contents not preserved)
 	//void assign(int newn, double &a); // resize and assign a constant value
 	//void assign(int newn, double &a);
@@ -101,15 +101,15 @@ public:
 	Mat Cross(const Mat &rhs) const;
 
 	// Getting set of elements of the matrix and Assmpling vector in a vector
-	Mat get(const int min,const int max) const;
-	Mat get(const int min_m,const int max_m,const int min_n,const int max_n) const;
+	Mat Get(const int min,const int max) const;
+	Mat Get(const int min_m,const int max_m,const int min_n,const int max_n) const;
 	//void Mat::Assemble(const Mat &A, const Mat &B);
 
-	Mat getCol(int iCol);
-	Mat getRow(int iRow);
+	Mat GetCol(int iCol);
+	Mat GetRow(int iRow);
 
-	void setCol(int iCol, Mat Col);
-	void setRow(int iRow,Mat Row);
+	void SetCol(int iCol, Mat Col);
+	void SetRow(int iRow,Mat Row);
 	// Concatenation 
 	friend Mat Assemble(const Mat& a, const Mat& b);
 
@@ -126,32 +126,32 @@ public:
 	void Sort(Mat & rhs);
 	//Get floati
 
-	float* getf();
+	float* Getf();
 	 // Output
     friend std::ostream& operator << (std::ostream& os, const Mat& Matrix);
 
 	 // Solve Linear System Using Gauss
      
 	 
-     Mat gaussLin(const Mat rhs,int n) const;
+     Mat GaussLin(const Mat rhs,int n) const;
 
-	 Mat inverse() const;
+	 Mat Inverse() const;
 	// Direct Product 
 
-     Mat directProduct(const Mat &rhs) const;
+     Mat DirectProduct(const Mat &rhs) const;
 
 	 // resize
-	 void resize(int newn);
+	 void Resize(int newn);
 
-	 void resize(int nColsNew ,int nRowsNew);
+	 void Resize(int nColsNew ,int nRowsNew);
 	// Destructor
 	~Mat();
 
 
 
-	int nRows;	// size of array. upper index is nn-1
-	int nCols;
-	double *v;
+	int n_rows_;	// size of array. upper index is nn-1
+	int n_cols_;
+	double *v_;
 };
 
 

@@ -4,238 +4,179 @@
 #include <iomanip>
 
 
-#include "Mat.h"
+#include "mat.h"
 // Mat definitions
 
 
 
-Mat::Mat() : nRows(0),nCols(0), v(NULL) {}
+Mat::Mat() : n_rows_(0),n_cols_(0), v_(NULL) {}
 
 
 Mat::Mat(int m) 
-	: nRows(m), nCols(1)
+	: n_rows_(m), n_cols_(1)
 {
-  v = new double [nRows];
-  for (int i=0; i<m; i++) v[i]=0.0;
+  v_ = new double [n_rows_];
+  for (int i=0; i<m; i++) v_[i]=0.0;
 }
 
 
-Mat::Mat(int m, int n) : nRows(m), nCols(n), v(m*n>0 ? new double[m*n] : NULL) {}
+Mat::Mat(int m, int n) : n_rows_(m), n_cols_(n), v_(m*n>0 ? new double[m*n] : NULL) {}
 
 
-Mat::Mat(int m, const double& a) : nRows(m), nCols(1),v(m>0 ? new double[m] : NULL)
+Mat::Mat(int m, const double& a) : n_rows_(m), n_cols_(1),v_(m>0 ? new double[m] : NULL)
 {
-	for(int i=0; i<m; i++) v[i] = a;
+	for(int i=0; i<m; i++) v_[i] = a;
 }
 
 
-Mat::Mat(int m, int n, const double& a) : nRows(m), nCols(n),v(m*n>0 ? new double[m*n] : NULL)
+Mat::Mat(int m, int n, const double& a) : n_rows_(m), n_cols_(n),v_(m*n>0 ? new double[m*n] : NULL)
 {
-	for(int i=0; i<m*n; i++) v[i] = a;
+	for(int i=0; i<m*n; i++) v_[i] = a;
 }
 
 
-Mat::Mat(int m, const double *a) : nRows(m), nCols(1), v(m>0 ? new double[m] : NULL)
+Mat::Mat(int m, const double *a) : n_rows_(m), n_cols_(1), v_(m>0 ? new double[m] : NULL)
 {
-	for(int i=0; i<m; i++) v[i] = *a++;
+	for(int i=0; i<m; i++) v_[i] = *a++;
 }
 
-Mat::Mat(int m, const int *a) : nRows(m), nCols(1), v(m>0 ? new double[m] : NULL)
+Mat::Mat(int m, const int *a) : n_rows_(m), n_cols_(1), v_(m>0 ? new double[m] : NULL)
 {
-	for(int i=0; i<m; i++) v[i] = *a++;
+	for(int i=0; i<m; i++) v_[i] = *a++;
 }
 
-Mat::Mat(int m, int n, const double *a) : nRows(m), nCols(n), v(m*n>0 ? new double[m*n] : NULL)
+Mat::Mat(int m, int n, const double *a) : n_rows_(m), n_cols_(n), v_(m*n>0 ? new double[m*n] : NULL)
 {
 
-	for(int i=0; i<m*n; i++) v[i] = *a++;
+	for(int i=0; i<m*n; i++) v_[i] = *a++;
 }
 
 Mat::Mat (double Initial , double Final , int N)
 {
-	v= new double [N];
-	nRows = N; nCols = 1;
+	v_= new double [N];
+	n_rows_ = N; n_cols_ = 1;
 	double h = (Final - Initial)/(N-1);
 	
 	for ( int i = 0; i<N; i++)
-		v[i] = Initial + i*h;
+		v_[i] = Initial + i*h;
 
 //	return Linspace;
 }
-Mat::Mat (const double x, const double y, const double z)   // 3dim-Vector             
+Mat::Mat (const double x, const double y, const double z)   // 3dim-v_ector             
 {
 	//init(6,1);
-	v = new double [3];
+	v_ = new double [3];
 
-	nRows=3; nCols=1;
-	v[0]=x; v[1]=y; v[2]=z;  
+	n_rows_=3; n_cols_=1;
+	v_[0]=x; v_[1]=y; v_[2]=z;  
 }
 
 
-Mat::Mat (double x, double y, double z,   // 6dim-Vector
+Mat::Mat (double x, double y, double z,   // 6dim-v_ector
                 double X, double Y, double Z)  
 {
-	v= new double [6];
-	nRows=6; nCols=1;
-	v[0]=x; v[1]=y; v[2]=z;
-	v[3]=X; v[4]=Y; v[5]=Z;  
+	v_= new double [6];
+	n_rows_=6; n_cols_=1;
+	v_[0]=x; v_[1]=y; v_[2]=z;
+	v_[3]=X; v_[4]=Y; v_[5]=Z;  
 }
 
 
-Mat::Mat(const Mat &rhs) : nRows(rhs.nRows),nCols(rhs.nCols), v(nRows>0 ? new double[nRows*nCols] : NULL)
+Mat::Mat(const Mat &rhs) : n_rows_(rhs.n_rows_),n_cols_(rhs.n_cols_), v_(n_rows_>0 ? new double[n_rows_*n_cols_] : NULL)
 {
-	for(int i=0; i<nRows*nCols; i++) v[i] = rhs.v[i];
+	for(int i=0; i<n_rows_*n_cols_; i++) v_[i] = rhs.v_[i];
 }
 
 
 
 Mat::Mat(const Mat &A, const Mat &B)
 {
-	nRows=A.nRows+B.nRows;
-	nCols=A.nCols;
+	n_rows_=A.n_rows_+B.n_rows_;
+	n_cols_=A.n_cols_;
 
-	v = new double [nRows];
+	v_ = new double [n_rows_];
 	int i;
-	for (i=0;i<A.nRows;i++) v[i]=A.v[i];
-	for (i=0;i<B.nRows;i++) (*this)(i+B.nRows)=B.v[i];
+	for (i=0;i<A.n_rows_;i++) v_[i]=A.v_[i];
+	for (i=0;i<B.n_rows_;i++) (*this)(i+B.n_rows_)=B.v_[i];
 }
 
 Mat Mat::operator=(const Mat& rhs)
-// postcondition: normal assignment via copying has been performed;
-//		if vector and rhs were different sizes, vector
+// postcondition: normal assignment v_ia copying has been performed;
+//		if v_ector and rhs were different sizes, v_ector
 //		has been resized to match the size of rhs
 {
-	/*int nEl = rhs.nRows*rhs.nCols;
+	/*int nEl = rhs.n_rows_*rhs.n_cols_;
 	if (this != &rhs)
 	{
-		if (nRows != rhs.nRows || nCols != rhs.nCols) {
-			if (v != NULL) delete [] (v);
-			nRows = rhs.nRows;
-			nCols = rhs.nCols;
-			v= nEl>0 ? new double[nEl] : NULL;
+		if (n_rows_ != rhs.n_rows_ || n_cols_ != rhs.n_cols_) {
+			if (v_ != NULL) delete [] (v_);
+			n_rows_ = rhs.n_rows_;
+			n_cols_ = rhs.n_cols_;
+			v_= nEl>0 ? new double[nEl] : NULL;
 		}
 		for (int i=0; i<nEl; i++)
-			v[i]=rhs.v[i];
+			v_[i]=rhs.v_[i];
 	}
 	return *this;
 	*/
-	delete v;
+	delete v_;
 	
-	nRows = rhs.nRows; nCols=rhs.nCols;
-	int nEl = nRows*nCols;
-	v = new double [nEl];
+	n_rows_ = rhs.n_rows_; n_cols_=rhs.n_cols_;
+	int nEl = n_rows_*n_cols_;
+	v_ = new double [nEl];
 	for (int i=0; i<nEl; i++)
-			v[i]=rhs.v[i];
+			v_[i]=rhs.v_[i];
 
 	return *this;
 
 }
 
-Mat eye(const int n)
+Mat Eye(const int n)
 {
 	Mat eyeMat(n,n);
 
 	for (int j = 0 ; j < n*n ; j++)
-		eyeMat.v[j] = 0.0;
+		eyeMat.v_[j] = 0.0;
 
 	for (int i = 0 ; i < n ; i++)
-		eyeMat.v[i*n + i] = 1.0;
+		eyeMat.v_[i*n + i] = 1.0;
 
 	return eyeMat;
 
 }
 
-//Mat::Mat(const int nRows_, double& a): nRows(nRows_) , nCols(1) ,  v(nRows>0 ? new double[nRows] : NULL)
 
-
-/*
-inline double & Mat::operator()(const int i)	//subscripting
-{
-#ifdef _CHECKBOUNDS_
-if (i<0 || i>=nRows) {
-	throw("Mat subscript out of bounds");
-}
-#endif
-	return v[i];
-}
-
-
-inline double& Mat::operator()(const int i, const int j)	//subscripting
-{
-#ifdef _CHECKBOUNDS_
-if (i<0 || i>=nRows || j<0 || j>=nCols) {
-	throw("Mat subscript out of bounds");
-}
-#endif
-	return v[i*nCols+j];
-}
-
-
-
-inline const double & Mat::operator()(const int i) const	//subscripting
-{
-#ifdef _CHECKBOUNDS_
-if (i<0 || i>=nRows) {
-	throw("Mat subscript out of bounds");
-}
-#endif
-	return v[i];
-}
-
-
-inline const double& Mat::operator()(const int i, const int j) const	//subscripting
-{
-#ifdef _CHECKBOUNDS_
-if (i<0 || i>=nRows || j<0 || j>=nCols) {
-	throw("Mat subscript out of bounds");
-}
-#endif
-	return v[i*nCols+j];
-}
-*/
-
-// Scalar multiplication and division of a vector
-/*
-Matrix operator * (double value, const Matrix& Mat)
-{
-  Matrix Aux(Mat.n,Mat.m);
-  for (int i=0; i<Mat.n; i++) 
-    for (int j=0; j<Mat.m; j++) 
-      Aux.M[i][j]=value*Mat.M[i][j];
-  return Aux;
-}
-*/
 
 Mat Mat::operator~()
 {
-	Mat transpose(nCols,nRows);
+	Mat transpose(n_cols_,n_rows_);
 
-	for (int i=0; i<nRows; i++)
-	for(int j=0; j<nCols; j++)
-	transpose.v[j*nCols+i] = v[i*nCols+j];
+	for (int i=0; i<n_rows_; i++)
+	for(int j=0; j<n_cols_; j++)
+	transpose.v_[j*n_cols_+i] = v_[i*n_cols_+j];
 
 	return transpose;
 
 
 }
 
-Mat Mat::transpose()
+Mat Mat::Transpose()
 {
-	Mat trans(nCols,nRows);
+	Mat trans(n_cols_,n_rows_);
 
-	for (int i=0; i<nRows; i++)
-	for(int j=0; j<nCols; j++)
-	trans.v[j*nCols+i] = v[i*nCols+j];
+	for (int i=0; i<n_rows_; i++)
+	for(int j=0; j<n_cols_; j++)
+	trans.v_[j*n_cols_+i] = v_[i*n_cols_+j];
 	
 	return trans;
 }
 
 Mat operator*(double value, const Mat& Matrix)
 {
-	int nEl= Matrix.nRows*Matrix.nCols;
-	Mat Aux(Matrix.nRows,Matrix.nCols);
+	int nEl= Matrix.n_rows_*Matrix.n_cols_;
+	Mat Aux(Matrix.n_rows_,Matrix.n_cols_);
 	for (int i=0; i<nEl; i++) 	
-		Aux.v[i]=value*Matrix.v[i];
+		Aux.v_[i]=value*Matrix.v_[i];
 
 	return Aux;
 }
@@ -247,10 +188,10 @@ Mat operator*(const Mat& Matrix, double value)
 
 Mat operator/(const Mat& Matrix,double value)
 {
-	int nEl= Matrix.nRows*Matrix.nCols;
-	Mat Aux(Matrix.nRows,Matrix.nCols);
+	int nEl= Matrix.n_rows_*Matrix.n_cols_;
+	Mat Aux(Matrix.n_rows_,Matrix.n_cols_);
 	for (int i=0; i<nEl; i++) 	
-		Aux.v[i]=Matrix.v[i]/value;
+		Aux.v_[i]=Matrix.v_[i]/value;
 
 	return Aux;
 }
@@ -261,28 +202,28 @@ Mat operator/(const Mat& Matrix,double value)
 
 Mat operator + (const Mat& left, const Mat& right)
 {
-	if ( (left.nRows!=right.nRows) || (left.nCols!=right.nCols) ) {
+	if ( (left.n_rows_!=right.n_rows_) || (left.n_cols_!=right.n_cols_) ) {
 	cerr << "ERROR: Incompatible shape in +(Matrix,Matrix)" << endl;
 	exit(1);
   };
 
-	Mat Aux(left.nRows,left.nCols);
-	for (int i=0; i<left.nRows*left.nCols; i++) 	
-		Aux.v[i] = left.v[i] + right.v[i];
+	Mat Aux(left.n_rows_,left.n_cols_);
+	for (int i=0; i<left.n_rows_*left.n_cols_; i++) 	
+		Aux.v_[i] = left.v_[i] + right.v_[i];
 
 	return Aux;
 }
 
 Mat operator - (const Mat& left, const Mat& right)
 {
-	if ( (left.nRows!=right.nRows) || (left.nCols!=right.nCols) ) {
+	if ( (left.n_rows_!=right.n_rows_) || (left.n_cols_!=right.n_cols_) ) {
 	cerr << "ERROR: Incompatible shape in +(Matrix,Matrix)" << endl;
 	exit(1);
   };
 
-	Mat Aux(left.nRows,left.nCols);
-	for (int i=0; i<left.nRows*left.nCols; i++) 	
-		Aux.v[i] = left.v[i] - right.v[i];
+	Mat Aux(left.n_rows_,left.n_cols_);
+	for (int i=0; i<left.n_rows_*left.n_cols_; i++) 	
+		Aux.v_[i] = left.v_[i] - right.v_[i];
 	return Aux;
 }
 
@@ -296,15 +237,15 @@ Mat operator * (const Mat& left, const Mat& right)
     exit(1);
   };
   */
-  Mat Aux(left.nRows,right.nCols);
+  Mat Aux(left.n_rows_,right.n_cols_);
   double Sum;
-  for (int i=0; i<left.nRows; i++) 
-    for (int j=0; j<right.nCols; j++)
+  for (int i=0; i<left.n_rows_; i++) 
+    for (int j=0; j<right.n_cols_; j++)
 	{
       Sum = 0.0;
-      for (int k=0; k<left.nCols; k++) 
-        Sum += left.v[i*left.nCols+k] * right.v[k*right.nCols+j];
-      Aux.v[i*Aux.nCols+j] = Sum;
+      for (int k=0; k<left.n_cols_; k++) 
+        Sum += left.v_[i*left.n_cols_+k] * right.v_[k*right.n_cols_+j];
+      Aux.v_[i*Aux.n_cols_+j] = Sum;
     }
   return Aux;
 
@@ -313,8 +254,8 @@ Mat operator * (const Mat& left, const Mat& right)
 // Unary minus
 Mat operator - (const Mat& M)
 {
-  Mat Aux(M.nRows,M.nCols);
-  for (int i=0; i<M.nRows*M.nCols; i++)  Aux.v[i]=-M.v[i];
+  Mat Aux(M.n_rows_,M.n_cols_);
+  for (int i=0; i<M.n_rows_*M.n_cols_; i++)  Aux.v_[i]=-M.v_[i];
      
   return Aux;
 }
@@ -338,25 +279,25 @@ Mat operator / (const Mat& Mat, double value)
 */
 
 
-inline int Mat::size() const
+inline int Mat::Size() const
 {
-	return nRows*nCols;
+	return n_rows_*n_cols_;
 }
 
 
 double Mat::Min() 
 {
-	double minValue=v[0];
-	for( int i=0 ; i<size() ; i++)
-		minValue = v[i] < minValue? v[i] : minValue;
+	double minValue=v_[0];
+	for( int i=0 ; i<Size() ; i++)
+		minValue = v_[i] < minValue? v_[i] : minValue;
 	return minValue;	
 }
 
 double Mat::Max() 
 {
-	double maxValue=v[0];
-	for( int i=0 ; i<size() ; i++)
-		maxValue = v[i]> maxValue? v[i] : maxValue;
+	double maxValue=v_[0];
+	for( int i=0 ; i<Size() ; i++)
+		maxValue = v_[i]> maxValue? v_[i] : maxValue;
 	return maxValue;
 }
  /*
@@ -376,23 +317,23 @@ void Mat::resize(int newn)
 /*
 void Mat::assign(int newn, const T& a)
 {
-	if (newn != nRows) {
+	if (newn != n_rows_) {
 		if (v != NULL) delete[] (v);
-		nRows = newn;
-		v = nRows > 0 ? new T[nRows] : NULL;
+		n_rows_ = newn;
+		v = n_rows_ > 0 ? new T[n_rows_] : NULL;
 	}
-	for (int i=0;i<nRows;i++) v[i] = a;
+	for (int i=0;i<n_rows_;i++) v_[i] = a;
 }
 */
 double Mat::Dot(const Mat &rhs)
 {
 
-	if ((*this).size()!=rhs.size()) {
+	if ((*this).Size()!=rhs.Size()) {
 	cerr << "ERROR: Incompatible shape in Dot(Vector,Vector)" << endl;
 	exit(1);
 	};
 	double Sum = 0.0;
-	for (int i=0; i<(*this).size(); i++) Sum+=(*this).v[i]*rhs.v[i];
+	for (int i=0; i<(*this).Size(); i++) Sum+=(*this).v_[i]*rhs.v_[i];
 	return Sum;
 
 }
@@ -407,19 +348,19 @@ double Mat::Norm()
 
 Mat Mat::Abs() 
 {
-	Mat absMatrix(nRows , nCols);
+	Mat absMatrix(n_rows_ , n_cols_);
 
-	for (int i = 0 ; i < size() ; i++)
-		absMatrix.v[i] = abs(v[i]);
+	for (int i = 0 ; i < Size() ; i++)
+		absMatrix.v_[i] = abs(v_[i]);
 
 	return absMatrix;
 
 }
 double Mat::NormInf()
-{	double output=abs(v[0]);
+{	double output=abs(v_[0]);
 	
-	for (int i = 1 ; i < size() ; i++)
-		output = output < abs(v[i]) ? output =  abs (v[i]) : output;
+	for (int i = 1 ; i < Size() ; i++)
+		output = output < abs(v_[i]) ? output =  abs (v_[i]) : output;
 
 	return output;
 }
@@ -427,7 +368,7 @@ double Mat::NormInf()
 double Mat::Rms(){
 	double Result;
 	double Diff=0.0;
-	int N=nRows*nCols;
+	int N=n_rows_*n_cols_;
 	for (int i=0;i<N;i++) Diff=Diff+pow((*this)(i),2);
 	Result = pow(Diff/(N),0.5);
 	return Result;
@@ -436,30 +377,30 @@ double Mat::Rms(){
 
 Mat Mat::Cross(const Mat &rhs) const
 {
-	if ( ((*this).size()!=3 || (rhs.size()!=3) )) {
+	if ( ((*this).Size()!=3 || (rhs.Size()!=3) )) {
     cerr << "ERROR: Invalid dimension in Cross(Vector,Vector)" << endl;
     exit(1);
 	};
 	Mat Result(3);
-	Result.v[0] = (*this).v[1]*rhs.v[2] - (*this).v[2]*rhs.v[1];
-	Result.v[1] = (*this).v[2]*rhs.v[0] - (*this).v[0]*rhs.v[2];
-	Result.v[2] = (*this).v[0]*rhs.v[1] - (*this).v[1]*rhs.v[0];
+	Result.v_[0] = (*this).v_[1]*rhs.v_[2] - (*this).v_[2]*rhs.v_[1];
+	Result.v_[1] = (*this).v_[2]*rhs.v_[0] - (*this).v_[0]*rhs.v_[2];
+	Result.v_[2] = (*this).v_[0]*rhs.v_[1] - (*this).v_[1]*rhs.v_[0];
 	return Result;
 }
 
-Mat Mat::get(const int min,const int max) const
+Mat Mat::Get(const int min,const int max) const
 {
 	Mat getmat(max-min+1);
   
 	int im;
 	for(int i=0, im=min ; im<max+1 ; ++i , ++im)
 	{		
-	  getmat.v[i]=v[im]; 	
+	  getmat.v_[i]=v_[im]; 	
 	}
 	return getmat;
 }
 
-Mat Mat::get(const int min_m,const int max_m,const int min_n,const int max_n) const
+Mat Mat::Get(const int min_m,const int max_m,const int min_n,const int max_n) const
 {
 	Mat getmat(max_m-min_m+1,max_n-min_n+1);
 
@@ -467,34 +408,34 @@ Mat Mat::get(const int min_m,const int max_m,const int min_n,const int max_n) co
   
 	for(i = 0 , im=min_m ; im<max_m+1 ;  ++im)
 		for(in=min_n ; in<max_n+1 ; ++i , ++in)		
-			getmat.v[i]=v[im*nCols+in]; 	
+			getmat.v_[i]=v_[im*n_cols_+in]; 	
 	
 	return getmat;
 }
 
 //void Mat::Assemble(const Mat &A, const Mat &B)
 //{
-//	nRows=A.nRows+B.nRows;
-//	nCols=A.nCols;
+//	n_rows_=A.n_rows_+B.n_rows_;
+//	n_cols_=A.n_cols_;
 
 //	delete v;
-//	v = new double [nRows];
+//	v = new double [n_rows_];
 //	int i;
-//	for (i=0;i<A.nRows;i++) v[i]=A.v[i];
-//	for (i=0;i<B.nRows;i++) v[i+A.nRows]=B.v[i];
+//	for (i=0;i<A.n_rows_;i++) v_[i]=A.v_[i];
+//	for (i=0;i<B.n_rows_;i++) v_[i+A.n_rows_]=B.v_[i];
 
 //}
 
 //Mat Assemble(const Mat &A, const Mat &B)
 //{
-//	int nRows=A.nRows+B.nRows;
-//	int nCols=A.nCols;
+//	int n_rows_=A.n_rows_+B.n_rows_;
+//	int n_cols_=A.n_cols_;
 
-//	Mat Aux(nRows,nCols);
+//	Mat Aux(n_rows_,n_cols_);
 
 //	int i;
-//	for (i=0;i<A.nRows;i++) Aux.v[i]=A.v[i];
-//	for (i=0;i<B.nRows;i++) Aux.v[i+A.nRows]=B.v[i];
+//	for (i=0;i<A.n_rows_;i++) Aux.v_[i]=A.v_[i];
+//	for (i=0;i<B.n_rows_;i++) Aux.v_[i+A.n_rows_]=B.v_[i];
 
 //	return Aux;
 //}
@@ -506,49 +447,49 @@ Mat Get(const Mat &A, const double min , const double max)
 
 	int i,j;
 	for (i=min , j=0 ;i<max+1;i++ , j++)
-		Aux.v[j]=A.v[i];
+		Aux.v_[j]=A.v_[i];
 	
 
 	return Aux;
 }
 
 
-Mat Mat::getCol(int iCol)
+Mat Mat::GetCol(int iCol)
 {
 
-	Mat Col(nRows);
+	Mat Col(n_rows_);
 
-	//for ( int i = 0 ; i < nRows ; i++)
-	//	Col.v[i] = v[nRows * i+iCol];
-	for ( int i = 0 ;  i< nRows ; i++)
-		Col.v[i] = v[nCols * i+iCol];
+	//for ( int i = 0 ; i < n_rows_ ; i++)
+	//	Col.v_[i] = v_[n_rows_ * i+iCol];
+	for ( int i = 0 ;  i< n_rows_ ; i++)
+		Col.v_[i] = v_[n_cols_ * i+iCol];
 
 	return Col;
 }
 
-Mat Mat::getRow(int iRow)
+Mat Mat::GetRow(int iRow)
 {
 
-	Mat Row(nCols);
+	Mat Row(n_cols_);
 
-	for ( int i = 0 ; i < nCols ; i++)
-		Row.v[i] = v[nCols * iRow+i];
+	for ( int i = 0 ; i < n_cols_ ; i++)
+		Row.v_[i] = v_[n_cols_ * iRow+i];
 
 	return Row;
 
 }
 
-void Mat::setCol(int iCol, Mat Col)
+void Mat::SetCol(int iCol, Mat Col)
 {
 
-	for ( int i = 0 ; i < nRows ; i++)
-		 v[nCols * i+iCol] = Col.v[i];
+	for ( int i = 0 ; i < n_rows_ ; i++)
+		 v_[n_cols_ * i+iCol] = Col.v_[i];
 }
 
-void Mat::setRow(int iRow, Mat Row)
+void Mat::SetRow(int iRow, Mat Row)
 {
-	for ( int i = 0 ; i < nCols ; i++)
-		v[nCols * iRow+i] = Row.v[i];
+	for ( int i = 0 ; i < n_cols_ ; i++)
+		v_[n_cols_ * iRow+i] = Row.v_[i];
 }
 
 
@@ -559,9 +500,9 @@ Mat R_x(double Angle)
   const double C = cos(Angle);
   const double S = sin(Angle);
   Mat U(3,3);
-  U.v[0] = 1.0;  U.v[1] = 0.0;  U.v[2] = 0.0;
-  U.v[3] = 0.0;  U.v[4] =  +C;  U.v[5] =  +S;
-  U.v[6] = 0.0;  U.v[7] =  -S;  U.v[8] =  +C;
+  U.v_[0] = 1.0;  U.v_[1] = 0.0;  U.v_[2] = 0.0;
+  U.v_[3] = 0.0;  U.v_[4] =  +C;  U.v_[5] =  +S;
+  U.v_[6] = 0.0;  U.v_[7] =  -S;  U.v_[8] =  +C;
   return U;
 }
 
@@ -570,9 +511,9 @@ Mat R_y(double Angle)
   const double C = cos(Angle);
   const double S = sin(Angle);
   Mat U(3,3);
-  U.v[0] =  +C;  U.v[1] = 0.0;  U.v[2] =  -S;
-  U.v[3] = 0.0;  U.v[4] = 1.0;  U.v[5] = 0.0;
-  U.v[6] =  +S;  U.v[7] = 0.0;  U.v[8] =  +C;
+  U.v_[0] =  +C;  U.v_[1] = 0.0;  U.v_[2] =  -S;
+  U.v_[3] = 0.0;  U.v_[4] = 1.0;  U.v_[5] = 0.0;
+  U.v_[6] =  +S;  U.v_[7] = 0.0;  U.v_[8] =  +C;
   return U;
 }
 
@@ -581,26 +522,26 @@ Mat R_z(double Angle)
   const double C = cos(Angle);
   const double S = sin(Angle);
   Mat U(3,3);
-  U.v[0] =  +C;  U.v[1] =  +S;  U.v[2] = 0.0;
-  U.v[3] =  -S;  U.v[4] =  +C;  U.v[5] = 0.0;
-  U.v[6] = 0.0;  U.v[7] = 0.0;  U.v[8] = 1.0;
+  U.v_[0] =  +C;  U.v_[1] =  +S;  U.v_[2] = 0.0;
+  U.v_[3] =  -S;  U.v_[4] =  +C;  U.v_[5] = 0.0;
+  U.v_[6] = 0.0;  U.v_[7] = 0.0;  U.v_[8] = 1.0;
   return U;
 }
 
 
 void Mat::Sort()
 {
-	int n = nRows*nCols;
+	int n = n_rows_*n_cols_;
 	double temp;
 	for(int i=0 ; i<n ; i++)
 	{
 		for(int j=i ; j<n ; j++ )
 		{
-			if(v[j] < v[i])
+			if(v_[j] < v_[i])
 			{
-				temp = v[j] ;
-				v[j] = v[i];
-				v[i] = temp;
+				temp = v_[j] ;
+				v_[j] = v_[i];
+				v_[i] = temp;
 			}			
 		}
 	}
@@ -608,33 +549,33 @@ void Mat::Sort()
 
 void Mat::Sort(Mat &rhs)
 {
-	int n = nRows*nCols;
+	int n = n_rows_*n_cols_;
 	double temp ,tempRhs;
 	for(int i=0 ; i<n ; i++)
 	{
 		for(int j=i ; j<n ; j++ )
 		{
-			if(v[j] < v[i])
+			if(v_[j] < v_[i])
 			{
-				temp = v[j] ;
-				v[j] = v[i];
-				v[i] = temp;
+				temp = v_[j] ;
+				v_[j] = v_[i];
+				v_[i] = temp;
 
-				tempRhs = rhs.v[j] ;
-				rhs.v[j] = rhs.v[i];
-				rhs.v[i] = tempRhs;
+				tempRhs = rhs.v_[j] ;
+				rhs.v_[j] = rhs.v_[i];
+				rhs.v_[i] = tempRhs;
 			}			
 		}
 	}
 }
 
-float* Mat::getf() {
+float* Mat::Getf() {
 	  //double *fdata;
 	float * fdata;
-	int size =nRows*nCols;
+	int size =n_rows_*n_cols_;
 	 fdata=new float[size];
 	 for(int i=0; i<size; i++) 
-		fdata[i]=(float)v[i];
+		fdata[i]=(float)v_[i];
 
 	return fdata;
 }
@@ -644,8 +585,8 @@ ostream& operator << (ostream& os, const Mat& Matrix)
    int w = os.width();
 
   os.precision(3);
-  for (int i=0; i<Matrix.nRows; i++) {
-	for (int j=0; j<Matrix.nCols; j++)
+  for (int i=0; i<Matrix.n_rows_; i++) {
+	for (int j=0; j<Matrix.n_cols_; j++)
 		os <<"   "<<  Matrix(i,j);
     os << endl<<endl;
   }
@@ -653,12 +594,12 @@ ostream& operator << (ostream& os, const Mat& Matrix)
 }
 
 
-Mat Mat::gaussLin(const Mat rhs,int n) const
+Mat Mat::GaussLin(const Mat rhs,int n) const
 {
 	Mat Aux = (*this);
 
 //	cout << " m A  Inside1 "<<endl <<(*this)<<endl;
-	if ( (Aux.nRows!=rhs.size() )) {
+	if ( (Aux.n_rows_!=rhs.Size() )) {
     cerr << "ERROR: Invalid dimension in gaussLin" << endl;
     exit(1);
 	};
@@ -680,32 +621,32 @@ Mat Mat::gaussLin(const Mat rhs,int n) const
 			for (int j = k ; j < n ; j++)
 			{
 				m = Aux(k,j);
-				Aux.v[k*nCols+j] = Aux.v[l*nCols+j];
-				Aux.v[l*nCols+j] = m;
+				Aux.v_[k*n_cols_+j] = Aux.v_[l*n_cols_+j];
+				Aux.v_[l*n_cols_+j] = m;
 			}
-			m = rhs.v[k];
-			rhs.v[k] = rhs.v[l];
-		    rhs.v[l] = m;
+			m = rhs.v_[k];
+			rhs.v_[k] = rhs.v_[l];
+		    rhs.v_[l] = m;
 		}
 	//	cout << endl << " Ma before Exculsion "<<endl<<(*this)<<endl<< "  rhs  "<<endl <<rhs<<endl; 
 		// Exclusion
 
 		for (int i = k+1 ; i<n ; i++)
 		{
-			m = Aux.v[i*nCols+k] / Aux.v[k*nCols+k];
+			m = Aux.v_[i*n_cols_+k] / Aux.v_[k*n_cols_+k];
 		//	cout << endl << "   m =  " <<m<<endl;
 
-			Aux.v[i*nCols+k] = 0.0;
+			Aux.v_[i*n_cols_+k] = 0.0;
 
 			//cout <<endl << " mA  "<<endl<<(*this) <<endl;
 			for ( int j = k+1 ; j < n ; j++)
 			{
-				Aux.v[i*nCols + j] = Aux.v[i*nCols + j] - m * Aux.v[k*nCols+j];
+				Aux.v_[i*n_cols_ + j] = Aux.v_[i*n_cols_ + j] - m * Aux.v_[k*n_cols_+j];
 
 			}
 
-			rhs.v[i] = rhs.v[i] - m * rhs.v[k] ; 
-			//cout <<endl << "   rhs.v[i]  "<<rhs.v[i]<<endl;
+			rhs.v_[i] = rhs.v_[i] - m * rhs.v_[k] ; 
+			//cout <<endl << "   rhs.v_[i]  "<<rhs.v_[i]<<endl;
 		}
 	}
 
@@ -714,16 +655,16 @@ Mat Mat::gaussLin(const Mat rhs,int n) const
 	Mat X(n);
 
 //	cout << " m A  after exculsion "<<endl <<(*this)<<endl;
-	X.v[n-1] = rhs.v[n-1] / Aux.v[(n-1)*nCols+n-1];
+	X.v_[n-1] = rhs.v_[n-1] / Aux.v_[(n-1)*n_cols_+n-1];
 
 	for (int i = n-2 ; i > -1 ; i--)
 	{
 		double s = 0.0;
 		
 		for (int j = i+1 ; j < n ; j++)
-			s = s - Aux.v[i*nCols + j] * X.v[j];
+			s = s - Aux.v_[i*n_cols_ + j] * X.v_[j];
 
-		X.v[i] = (rhs.v[i] + s)/ Aux.v[i*nCols + i];
+		X.v_[i] = (rhs.v_[i] + s)/ Aux.v_[i*n_cols_ + i];
 	}
 	~Aux;
 	return X;
@@ -731,17 +672,17 @@ Mat Mat::gaussLin(const Mat rhs,int n) const
 
 	
 
-Mat Mat::inverse() const
+Mat Mat::Inverse() const
 {
 	int i,j;
-	int n = nRows;
+	int n = n_rows_;
 	Mat ainv(n,n);
 	for (i=0;i<n;i++) {
 		for (j=0;j<n;j++) ainv(i,j) = 0.;
 		ainv(i,i) = 1.;
 	}
 
-	int m=nCols;
+	int m=n_cols_;
 	
 	Mat xx(n),yy(n);
 	for (j=0;j<m;j++) {
@@ -749,7 +690,7 @@ Mat Mat::inverse() const
 		for (i=0;i<n;i++) xx(i) = ainv(i,j);
 	//	cout << endl << " this " <<endl<<(*this)<<endl;
 	//	cout << endl <<" xx  " <<endl<<xx; 
-		yy=gaussLin(xx,n);
+		yy=GaussLin(xx,n);
 	//	cout << endl << " this " <<endl<<(*this)<<endl;
 	//	cout << endl <<" yy  " <<endl<<yy; 
 	//	cout << endl << " this " <<endl<<(*this)<<endl;
@@ -758,25 +699,25 @@ Mat Mat::inverse() const
 	return ainv;
 
 }
-Mat Mat::directProduct(const Mat &rhs) const
+Mat Mat::DirectProduct(const Mat &rhs) const
 {
-	Mat product(nRows*rhs.nRows,nCols*rhs.nCols);
+	Mat product(n_rows_*rhs.n_rows_,n_cols_*rhs.n_cols_);
 
 
 	
-	for (int im=0; im<nRows ;im++ )
+	for (int im=0; im<n_rows_ ;im++ )
 	{
-		for (int jm=0; jm<nCols ; jm++)
+		for (int jm=0; jm<n_cols_ ; jm++)
 		{
-			for (int in=0; in<rhs.nRows ;in++ )
+			for (int in=0; in<rhs.n_rows_ ;in++ )
 			{
-				for (int jn=0; jn<rhs.nCols ; jn++)
+				for (int jn=0; jn<rhs.n_cols_ ; jn++)
 				{
 
-					int m = im*rhs.nRows +in;
-					int n = jm*rhs.nCols+ jn;
+					int m = im*rhs.n_rows_ +in;
+					int n = jm*rhs.n_cols_+ jn;
 
-					product( m , n) = v[im*nCols+jm] *  rhs.v[in*rhs.nCols+jn];
+					product( m , n) = v_[im*n_cols_+jm] *  rhs.v_[in*rhs.n_cols_+jn];
 				}
 			}
 		} 
@@ -786,10 +727,10 @@ Mat Mat::directProduct(const Mat &rhs) const
 
 
 
-void vander(Mat x, Mat &w, Mat q) 
+void Vander(Mat x, Mat &w, Mat q) 
 
 {
-	int i,j,k,n=q.size();
+	int i,j,k,n=q.Size();
 	double b,s,t,xx;
 	Mat c(n);
 	if (n == 1) w(0)=q(0);
@@ -818,42 +759,42 @@ void vander(Mat x, Mat &w, Mat q)
 	}
 }
 
-void Mat::resize(int newn)
+void Mat::Resize(int newn)
 {
 	Mat ytemp = (*this);
-	if (newn != nCols*nRows) {
-		if (v != NULL) delete[] (v);	
-		nRows = newn; nCols=1;
-		v = nRows*nCols > 0 ? new double[nRows] : NULL;
+	if (newn != n_cols_*n_rows_) {
+		if (v_ != NULL) delete[] (v_);	
+		n_rows_ = newn; n_cols_=1;
+		v_ = n_rows_*n_cols_ > 0 ? new double[n_rows_] : NULL;
 
 		
-		for ( int i = 0 ; i < min(nRows,ytemp.nRows) ; i++)
-			v[i] = ytemp.v[i];
+		for ( int i = 0 ; i < min(n_rows_,ytemp.n_rows_) ; i++)
+			v_[i] = ytemp.v_[i];
 	}
 }
 
-void Mat::resize(int newn, int newm)
+void Mat::Resize(int newn, int newm)
 {
 	int i,nel;
 	Mat ytemp = (*this);
 
-	if (newn != nCols || newm != nRows) {
-		if (v != NULL) 
-			delete[] (v);
+	if (newn != n_cols_ || newm != n_rows_) {
+		if (v_ != NULL) 
+			delete[] (v_);
 		
-		nRows = newn;
-		nCols = newm;
-		int nEl = nRows*nCols;
-		v = nRows*nCols>0 ? new double[nEl] : NULL;
+		n_rows_ = newn;
+		n_cols_ = newm;
+		int nEl = n_rows_*n_cols_;
+		v_ = n_rows_*n_cols_>0 ? new double[nEl] : NULL;
 		
-		for ( int i = 0 ; i < min(nRows,ytemp.nRows) ; i++)
-			for ( int j = 0 ; j < min(nCols,ytemp.nCols) ; j++)
-				v[i*nCols+j] = ytemp.v[i*ytemp.nCols+j];
+		for ( int i = 0 ; i < min(n_rows_,ytemp.n_rows_) ; i++)
+			for ( int j = 0 ; j < min(n_cols_,ytemp.n_cols_) ; j++)
+				v_[i*n_cols_+j] = ytemp.v_[i*ytemp.n_cols_+j];
 	}
 }
 
 Mat::~Mat()
 {
-	if (v != NULL) delete[] (v);
+	if (v_ != NULL) delete[] (v_);
 };
 

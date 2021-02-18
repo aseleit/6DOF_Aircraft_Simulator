@@ -47,27 +47,21 @@ public:
 	// Accessing Elements
 	//inline double & operator()(const int i);	//i'th element
    // inline double & operator()(const int i, const int j);	//i'th and j'th element
-	 double  operator () (int i) const { return v_[i]; };
-     double& operator () (int i)       { return v_[i]; };
+	double  operator () (int i) const { return v_[i]; };
+	double& operator () (int i)       { return v_[i]; };
 
-	 double  operator () (int i,int j) const { return v_[i*n_cols_+j]; };
-     double& operator () (int i,int j)       { return v_[i*n_cols_+j]; };
-//	 double & Mat::double()(const int i, const int j)
-	//inline const double & operator()(const int i) const;1	
-	//inline const double & operator()(const int i , const int j) const;
-	 
+	double  operator () (int i,int j) const { return v_[i*n_cols_+j]; };
+	double& operator () (int i,int j)       { return v_[i*n_cols_+j]; };
+ 
 
-	 Mat operator ~ ();
+	Mat operator ~ ();
 
-	 Mat Transpose();
+	Mat Transpose();
 
 	// Scalar multiplication and division of a vector
 	friend Mat operator * (double value, const Mat& Mat);  
 	friend Mat operator * (const Mat& V, double value);
 	friend Mat operator / (const Mat& V, double value);
-
-	
-	
 
 	// Matrix addition and subtraction
     friend Mat operator + (const Mat& left, const Mat& right);
@@ -127,35 +121,30 @@ public:
 	//Get floati
 
 	float* Getf();
-	 // Output
+	// Output
     friend std::ostream& operator << (std::ostream& os, const Mat& Matrix);
 
 	 // Solve Linear System Using Gauss
      
 	 
-     Mat GaussLin(const Mat rhs,int n) const;
+	Mat GaussLin(const Mat rhs,int n) const;
 
-	 Mat Inverse() const;
+	Mat Inverse() const;
 	// Direct Product 
 
-     Mat DirectProduct(const Mat &rhs) const;
+	Mat DirectProduct(const Mat &rhs) const;
 
-	 // resize
-	 void Resize(int newn);
+	// resize
+	void Resize(int newn);
 
-	 void Resize(int nColsNew ,int nRowsNew);
+	void Resize(int nColsNew ,int nRowsNew);
 	// Destructor
 	~Mat();
 
 
-
+	// Variables
 	int n_rows_;	// size of array. upper index is nn-1
 	int n_cols_;
 	double *v_;
 };
-
-
-void vander(Mat x, Mat &w, Mat q) ;
-
-
 #endif

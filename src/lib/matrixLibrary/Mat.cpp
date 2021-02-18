@@ -7,8 +7,6 @@
 #include "mat.h"
 // Mat definitions
 
-
-
 Mat::Mat() : n_rows_(0),n_cols_(0), v_(NULL) {}
 
 

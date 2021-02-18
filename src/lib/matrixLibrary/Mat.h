@@ -8,25 +8,26 @@ class Mat {
 public:
 	// Cosntructors
 	Mat();
-	Mat(int n);		        // Zero-based array
-	Mat(int m, int n);		// Zero-based array
-	Mat(int m, const double &a);	        //initialize to constant value
-	Mat(int m, int n , const double &a);	//initialize to constant value
+	Mat(int n);		        				// Zero-based array
+	Mat(int m, int n);						// Zero-based array
+	Mat(int m, const double &a);	        // Initialize to constant value
+	Mat(int m, int n , const double &a);	// Initialize to constant value
 	Mat(int m, const double *a);        	// Initialize to array
-	Mat(int m, const int *a);        	// Initialize to array
+	Mat(int m, const int *a);        	    // Initialize to array
 	Mat(int m, int n , const double *a);	// Initialize to array
-	Mat(double x, double y, double z);   // 3dim-Vector
-	Mat (double x, double y, double z,   // 6dim-Vector
-			double X, double Y, double Z);
+	Mat(double x, double y, double z);      // 3dim-Vector
+	Mat (double x, double y, double z,      // 6dim-Vector
+		 double X, double Y, double Z);
+	
 	// Assignement
-	Mat(const Mat &rhs);	// Copy constructor
-	Mat( double Inital, double Final, int N);
-	Mat operator=(const Mat& rhs);	//assignment
-	Mat(const Mat &A, const Mat &B);   // Assemble two matrices
+	Mat(const Mat &rhs);					// Copy constructor
+	Mat(double Inital, double Final, int N);
+	Mat operator = (const Mat& rhs);	    // Assignment operator
+	Mat(const Mat &A, const Mat &B);   		// Assemble two matrices
 
-	friend Mat Eye(const int n);      // Identity Matrix
+	friend Mat Eye(const int n);      		// Identity Matrix
 
-	typedef double value_type; // make T available externally
+	typedef double value_type; 				// Make T available externally
 
 	// Accessing Elements
 	double  operator () (int i) const { return v_[i]; };
@@ -68,19 +69,19 @@ public:
 	Mat Cross(const Mat &rhs) const;
 
 	// Getting set of elements of the matrix and Assmpling vector in a vector
-	Mat Get(const int min,const int max) const;
-	Mat Get(const int min_m,const int max_m,const int min_n,const int max_n) const;
-	//void Mat::Assemble(const Mat &A, const Mat &B);
+	Mat Get(const int min, const int max) const;
+	Mat Get(const int min_m, const int max_m, const int min_n, const int max_n) const;
 
 	Mat GetCol(int iCol);
 	Mat GetRow(int iRow);
 
 	void SetCol(int iCol, Mat Col);
-	void SetRow(int iRow,Mat Row);
+	void SetRow(int iRow, Mat Row);
+	
 	// Concatenation 
 	friend Mat Assemble(const Mat& a, const Mat& b);
-
 	friend Mat Get(const Mat &A, const double min , const double max);
+	
 	// Elementary rotations
 	friend Mat R_x(double Angle);
 	friend Mat R_y(double Angle);
@@ -91,25 +92,27 @@ public:
 	void Sort(Mat & rhs);
 	
 	float* Getf();
+	
 	// Output
 	friend std::ostream& operator << (std::ostream& os, const Mat& Matrix);
 
 	// Solve Linear System Using Gauss
-	Mat GaussLin(const Mat rhs,int n) const;
+	Mat GaussLin(const Mat rhs, int n) const;
 
 	Mat Inverse() const;
 
 	// Direct Product 
 	Mat DirectProduct(const Mat &rhs) const;
 
-	// resize
+	// Resize
 	void Resize(int newn);
-	void Resize(int nColsNew ,int nRowsNew);
+	void Resize(int nColsNew, int nRowsNew);
+	
 	// Destructor
 	~Mat();
 
 	// Variables
-	int n_rows_;	// size of array. upper index is nn-1
+	int n_rows_;	// Size of array. upper index is nn-1
 	int n_cols_;
 	double *v_;
 };

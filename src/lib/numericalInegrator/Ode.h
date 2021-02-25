@@ -1,7 +1,6 @@
 #ifndef _ODE_H_
 #define _ODE_H_
 
-
 #include "Mat.h"
 #include <iomanip>
 
@@ -29,7 +28,6 @@ typedef void (*Derivs2Order)(
   void*         pAux   // Pointer to auxiliary data used within f
 );
 
-
 typedef void (*Method)(
   int&       S,     
   int&       P,     
@@ -37,8 +35,4 @@ typedef void (*Method)(
   Mat&       B,   
   Mat&       C
 );
-
-
-
-
 #endif

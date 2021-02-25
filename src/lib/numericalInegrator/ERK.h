@@ -4,15 +4,14 @@
 
 class RK4 {
 	 public:
-	// Constructor
     RK4 (
-	  Derivs   f_,        // Differential equation
-	  int      n_eqn_,    // Dimension
-	  double   tInitial_,
-	  double   tFinal_,
-	  Mat      y0_,
-	  double   h_,
-	  void*    pAux_      // Pointer to auxiliary data	  		
+	Derivs   f_,        // Differential equation
+	int      n_eqn_,    // Dimension
+	double   tInitial_,
+	double   tFinal_,
+	Mat      y0_,
+	double   h_,
+	void*    pAux_      // Pointer to auxiliary data	  		
       ) 
     : f_(f_), n_eqn_(n_eqn_),t_initial_(tInitial_),t_final_(tFinal_),y_0_(y_0_),h_(h_), pAux_(pAux_)
     {
@@ -26,9 +25,9 @@ class RK4 {
 	};
     // Integration step
     void Step (         
-      double&  t_,         // Value of the independent variable; updated by t+h
-      Mat&     y_,         // Value of y(t); updated by y(t+h)
-      double   &h_          // Step size
+	double&  t_,         // Value of the independent variable; updated by t+h
+	Mat&     y_,         // Value of y(t); updated by y(t+h)
+	double   &h_          // Step size
     );
 	void Integrate();
 	// Elements for Output
@@ -40,28 +39,27 @@ class RK4 {
 	double time_;
 	// Elements
 	Derivs		 f_;
-    int			 n_eqn_;
+	int			 n_eqn_;
 	double		 t_initial_,t_final_;
 	Mat			 y_0_;	
 	double		 h_;
 	void*		 pAux_;
 
 	private:
-	 Mat k_1_,k_2_,k_3_,k_4_;
+	Mat k_1_,k_2_,k_3_,k_4_;
 };
 
 class RK8 {
 	public:
-	// Constructor
     RK8 (
-	  Derivs   f_,        // Differential equation
-	  int      n_eqn_,    // Dimension
-	  double   t_initial_,
-	  double   t_final_,
-	  Mat      y_0_,
-	  double   h_,
-	  void*    pAux_      // Pointer to auxiliary data	  		
-      ) 
+	Derivs   f_,        // Differential equation
+	int      n_eqn_,    // Dimension
+	double   t_initial_,
+	double   t_final_,
+	Mat      y_0_,
+	double   h_,
+	void*    pAux_      // Pointer to auxiliary data	  		
+    ) 
     : f_(f_), n_eqn_(n_eqn_),t_initial_(t_initial_),t_final_(t_final_),y_0_(y_0_),h_(h_), pAux_(pAux_)
     {
 		clock_t t_1_ = clock();
@@ -74,11 +72,11 @@ class RK8 {
 		time_ = clock()-t_1_;
 	};
     // Integration step
-    void Step (         
-      double&  t_,         // Value of the independent variable; updated by t+h
-      Mat&     y_,         // Value of y(t); updated by y(t+h)
-      double   &h_          // Step size
-    );
+	void Step (         
+	double&  t_,         // Value of the independent variable; updated by t+h
+	Mat&     y_,         // Value of y(t); updated by y(t+h)
+	double   &h_          // Step size
+	);
 	void Integrate();
 	// Elements for Output
 	int n_fevals_;
@@ -89,12 +87,12 @@ class RK8 {
 	double t_out_;
 	// Elements
 	Derivs		 f_;
-    int			 n_eqn_;
+	int			 n_eqn_;
 	double		 t_initial_,t_final_;
 	Mat			 y_0_;	
 	double		 h_;
 	void*		 pAux_;	
 	private:
-    Mat			 k_1_,k_2_,k_3_,k_4_,k_5_,k_6_,k_7_,k_8_,k_9_,k_10_;
+	Mat			 k_1_,k_2_,k_3_,k_4_,k_5_,k_6_,k_7_,k_8_,k_9_,k_10_;
 };
 #endif

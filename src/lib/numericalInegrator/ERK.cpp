@@ -6,14 +6,14 @@ void RK4::Step (double& t, Mat& y, double& h) {
 	double hh=h*0.5;
 	double h6=h/6.0;
 	double th=t+hh;
- 	f_( t   , y       , k_1_ , pAux_ );
+	f_( t   , y       , k_1_ , pAux_ );
 	f_( t+hh, y+hh*k_1_, k_2_, pAux_ );
 	f_( t+hh, y+hh*k_2_, k_3_, pAux_ );
 	f_( t+h , y+h*k_3_ , k_4_, pAux_ );  
 	y = y + h6*( k_1_ + 2.0*k_2_ + 2.0*k_3_ + k_4_ );
 	n_fevals_ +=4;
 	n_steps_ +=1;  
-	 t = t+h; // Update independent variable
+	t = t+h; // Update independent variable
 }
 
 void RK4::Integrate()
@@ -22,7 +22,7 @@ void RK4::Integrate()
 	t_out_ = t_initial_ ;
 	y_out_ = y_0_;
 	for (int i = 0 ; i < (t_final_-t_initial_)/h_ ;i++)
-		Step(t_out_,y_out_,h);
+		Step(t_out_,y_out_,h_);
 	time_ += (clock()-t1);
 }
 

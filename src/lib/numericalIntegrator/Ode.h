@@ -1,7 +1,7 @@
 #ifndef _ODE_H_
 #define _ODE_H_
 
-#include "Mat.h"
+#include "../matrixLibrary/Mat.h"
 #include <iomanip>
 
 inline const double Max(const double &a, const double &b) { return b > a ? b : a; }

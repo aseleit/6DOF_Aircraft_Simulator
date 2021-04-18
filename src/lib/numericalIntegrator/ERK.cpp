@@ -20,7 +20,7 @@ void RK4::Integrate()
 {
 	clock_t t1 = clock();	
 	t_out_ = t_initial_;
-	y_out_ = y_0_;
+	y_out_ = y0_;
 	for (int i = 0; i < (t_final_ - t_initial_) / h_; i++)
 		Step(t_out_, y_out_, h_);
 	time_ += (clock() - t1);
@@ -47,7 +47,7 @@ void RK8::Integrate()
 {
 	clock_t t1 = clock();	
 	t_out_ = t_initial_;
-	y_out_ = y_0_;
+	y_out_ = y0_;
 	for (int i = 0; i < (t_final_ - t_initial_) / h_; i++)
 		Step(t_out_, y_out_, h_);
 	time_ += (clock() - t1);

@@ -17,7 +17,7 @@ typedef void (*Derivs)(
   const double  x,     // Independent variable
   const Mat&    y,     // State vector 
   Mat&          yp,    // Derivative y'=f(x,y)
-  void*         pAux   // Pointer to auxiliary data used within f
+  void*         p_aux   // Pointer to auxiliary data used within f
 );
 
 typedef void (*Derivs2Order)(
@@ -25,7 +25,7 @@ typedef void (*Derivs2Order)(
   Mat           r,     // State vector
   Mat           v,     // State vector 
   Mat&          yp,    // Derivative y'=f(x,y)
-  void*         pAux   // Pointer to auxiliary data used within f
+  void*         p_aux   // Pointer to auxiliary data used within f
 );
 
 typedef void (*Method)(

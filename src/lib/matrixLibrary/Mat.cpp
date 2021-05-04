@@ -573,6 +573,24 @@ void Mat::Resize(int newn, int newm)
 	}
 }
 
+void Mat::Assemble(const Mat & a, const Mat &b)
+{	
+	for (int i=0 ; i<a.Size() ; i++)
+		v_[i] = a(i);
+	for (int j=0 ; j<b.Size(); j++)
+		v_[j] = b(j);
+}
+
+void Mat::Print(const char *title){
+  printf("%s\n", title);
+  for (int i=0; i<n_rows_; i++){
+    for (int j=0; j<n_cols_-1; j++){
+      printf("%+5.2f ", *(v_+i*n_cols_ + j));
+    }
+    printf("%+5.2f\n", *(v_+i*n_cols_ + n_cols_-1));
+  }
+}
+
 Mat::~Mat()
 {
 	if (v_ != NULL) delete[] (v_);

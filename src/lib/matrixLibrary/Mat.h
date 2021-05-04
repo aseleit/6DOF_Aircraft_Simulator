@@ -79,7 +79,7 @@ public:
 	void SetRow(int iRow, Mat Row);
 	
 	// Concatenation 
-	friend Mat Assemble(const Mat& a, const Mat& b);
+	void Assemble(const Mat &a, const Mat &b);
 	friend Mat Get(const Mat &A, const double min , const double max);
 	
 	// Elementary rotations
@@ -107,6 +107,8 @@ public:
 	// Resize
 	void Resize(int newn);
 	void Resize(int nColsNew, int nRowsNew);
+	
+	void Print(const char *title);
 	
 	// Destructor
 	~Mat();

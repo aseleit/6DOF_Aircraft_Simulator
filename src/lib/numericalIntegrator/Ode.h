@@ -12,20 +12,20 @@ typedef void (*Derivs)(
   const double  x,     // Independent variable
   Mat           y,     // State vector 
   Mat&          yp,    // Derivative y'=f(x,y)
-  Mat           u
+  Mat           u      // Control input
 );
 
 typedef Mat (*Derivs2)(
   const double  x,     // Independent variable
   Mat           y,     // State vector 
-  Mat           u
+  Mat           u      // Control input
 );
 
 typedef void (*Derivs2Order)(
   const double  x,     // Independent variable
   Mat           r,     // State vector
   Mat           v,     // State vector 
-  Mat&          yp    // Derivative y'=f(x,y)
+  Mat&          yp     // Derivative y'=f(x,y)
 );
 
 typedef void (*Method)(

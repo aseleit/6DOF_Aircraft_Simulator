@@ -3,12 +3,12 @@
 #include <cmath>
 
 
-Mat twoBodyNumStates(const double t, Mat y,  Mat u)
+Mat twoBodyNumStates(const double t, Mat y, Mat u)
 {	
-    double GM_Earth =1.0;
-	Mat r(3),v(3);
+    double GM_Earth = 1.0;
+	Mat r(3), v(3);
     Mat dydt(6);
-	for( int i =0 ; i < 3 ; i++)
+	for(int i = 0; i < 3; i++)
 	{
 		r(i) = y(i);
 		v(i) = y(i+3) ;
@@ -25,12 +25,12 @@ Mat twoBodyNumStates(const double t, Mat y,  Mat u)
 
 void exponential_function(const double t, const Mat y, Mat& dydt, Mat u)
 {	
-	dydt=y;	
+	dydt = y;	
 };
 
-Mat exponential_function2(const double t, Mat y,  Mat u)
+Mat exponential_function2(const double t, Mat y, Mat u)
 {	
-	Mat dydt=y;	
+	Mat dydt = y;	
     return dydt;
 };
 

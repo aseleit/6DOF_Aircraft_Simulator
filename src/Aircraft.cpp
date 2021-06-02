@@ -80,12 +80,6 @@ Aircraft::Aircraft(const std::string &aircraft_data_path) {
             }      
         }
     }
-    // Test that the aircraft parameters have been loaded correctly 
-    // TODO: remove this later once verified
-    std::cout << "Xu = " << Xu_ << std::endl;
-    std::cout << "Mq = " << Mq_ << std::endl;
-    std::cout << "Lda = " << Lda_ << std::endl;
-    std::cout << "W0 = " << W0_ << std::endl;
     
     // Initialize system matrices
     double A_long_param_list[16] = {Xu_, Xw_, 0, -1 * GRAVITY * cos(theta0_),

@@ -7,6 +7,6 @@ set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
 project(6DOF_AC_Sim)
 
-set(SOURCE_FILES src/num_integrator_demo.cpp src/lib/matrixLibrary/Mat.cpp src/lib/numericalIntegrator/ERK.cpp src/Aircraft.cpp)
+set(SOURCE_FILES src/main.cpp src/lib/matrixLibrary/Mat.cpp src/lib/numericalIntegrator/ERK.cpp src/Aircraft.cpp)
 
 add_executable(6DOF_Sim_test ${SOURCE_FILES})
